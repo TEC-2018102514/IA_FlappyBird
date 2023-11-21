@@ -14,7 +14,6 @@ from base import Base
 from bird import Bird
 from pipe import Pipe
 
-
 class FlappyBirdEnv(gym.Env):
     action_space = Discrete(2)
     """
