@@ -1,9 +1,0 @@
-digraph {
-	node [fontsize=9 height=0.2 shape=circle width=0.2]
-	delta_x [fillcolor=lightgray shape=box style=filled]
-	delta_y_top [fillcolor=lightgray shape=box style=filled]
-	delta_y_bottom [fillcolor=lightgray shape=box style=filled]
-	"Jump or Not" [fillcolor=lightblue style=filled]
-	delta_y_bottom -> "Jump or Not" [color=green penwidth=0.2812133550456809 style=solid]
-	delta_y_top -> "Jump or Not" [color=green penwidth=0.2151772774954528 style=solid]
-}
