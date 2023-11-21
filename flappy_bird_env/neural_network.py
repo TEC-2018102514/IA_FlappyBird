@@ -1,29 +1,24 @@
-import tensorflow as tf
-from tensorflow.python.keras import layers, models
+import torch
+import torch.nn as nn
+import torch.optim as optim
 
-def build_model(input_shape, num_actions):
-    model = models.Sequential()
+class FlappyBirdCNN(nn.Module):
+    def __init__(self):
+        super(FlappyBirdCNN, self).__init__()
+        self.conv1 = nn.Conv2d(3, 32, kernel_size=3, stride=2)
+        self.conv2 = nn.Conv2d(32, 64, kernel_size=3, stride=2)
+        self.conv3 = nn.Conv2d(64, 64, kernel_size=3, stride=2)
+        self.fc1 = nn.Linear(64 * 6 * 6, 512)
+        self.fc2 = nn.Linear(512, 2)  # 2 acciones: saltar o no saltar
 
-    # Normalización de las observaciones
-    model.add(layers.BatchNormalization(input_shape=input_shape))
+    def forward(self, x):
+        x = torch.relu(self.conv1(x))
+        x = torch.relu(self.conv2(x))
+        x = torch.relu(self.conv3(x))
+        x = x.view(x.size(0), -1)
+        x = torch.relu(self.fc1(x))
+        x = self.fc2(x)
+        return x
 
-    # Capas convolucionales
-    model.add(layers.Conv2D(32, (3, 3), activation='relu'))
-    model.add(layers.MaxPooling2D((2, 2)))
-    model.add(layers.Conv2D(64, (3, 3), activation='relu'))
-    model.add(layers.MaxPooling2D((2, 2)))
-
-    # Aplanar para conectar con capas completamente conectadas
-    model.add(layers.Flatten())
-
-    # Capas completamente conectadas
-    model.add(layers.Dense(128, activation='relu'))
-    model.add(layers.Dense(num_actions, activation='softmax'))  # Ajustar a num_actions
-
-    # Compilar el modelo
-    model.compile(optimizer='adam', loss='categorical_crossentropy', metrics=['accuracy'])
-
-    # Mostrar resumen del modelo
-    model.summary()
-
-    return model
+# Crear una instancia de la red
+cnn = FlappyBirdCNN()

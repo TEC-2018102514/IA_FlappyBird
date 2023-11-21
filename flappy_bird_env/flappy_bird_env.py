@@ -14,9 +14,6 @@ from .base import Base
 from .bird import Bird
 from .pipe import Pipe
 
-from neural_network import build_model
-
-
 class FlappyBirdEnv(gym.Env):
     action_space = Discrete(2)
     """
